@@ -22,10 +22,10 @@ endfunction(create_filters)
 #############               SOLUTION                 #############
 ##################################################################
 
-project(Resortes LANGUAGES CXX)
+project(Avatar LANGUAGES CXX)
 # Version
-set (Resortes_VERSION_MAJOR 1)
-set (Resortes_VERSION_MINOR 0)
+set (Avatar_VERSION_MAJOR 1)
+set (Avatar_VERSION_MINOR 0)
 
 ##################################################################
 #############                CONFIG                  #############
@@ -38,7 +38,7 @@ find_package(SFML COMPONENTS system window graphics main REQUIRED)
 find_package(Box2D REQUIRED)
 
 ##################################################################
-#############          Box2dFirstApp PROJECT         #############
+#############             Avatar PROJECT             #############
 ##################################################################
 
 add_subdirectory(Src/)

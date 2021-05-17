@@ -22,10 +22,10 @@ endfunction(create_filters)
 #############               SOLUTION                 #############
 ##################################################################
 
-project(Resortes LANGUAGES CXX)
+project(SoftBody LANGUAGES CXX)
 # Version
-set (Resortes_VERSION_MAJOR 1)
-set (Resortes_VERSION_MINOR 0)
+set (SoftBody_VERSION_MAJOR 1)
+set (SoftBody_VERSION_MINOR 0)
 
 ##################################################################
 #############                CONFIG                  #############

@@ -96,7 +96,9 @@ void SFMLRenderer::DrawTransform(const b2Transform& xf)
 
 void SFMLRenderer::DrawPoint(const b2Vec2& p, float size, const b2Color& color)
 {
-	const float radius = size / 2.0f;
+	// Box2D utiliza un diametro fijo de 8.0f que es exagerado, por eso usamos uno de 1.0f
+	//const float radius = size / 2.0f;
+	const float radius = 0.5f;
 	sf::CircleShape circle(radius);
 	circle.setOrigin(radius, radius);
 	circle.setPosition(p.x, p.y);

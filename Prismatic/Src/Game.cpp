@@ -5,9 +5,9 @@ Game::Game(int ancho, int alto,std::string titulo)
 {
 	wnd= new RenderWindow(VideoMode(ancho,alto),titulo);
 	wnd->setVisible(true);
-	fps = 60;
+	fps=60;
 	wnd->setFramerateLimit(fps);
-	frameTime = 1.0f / fps;
+	frameTime=1.0f/fps;
 	SetZoom();
 	InitPhysics();
 }
@@ -33,10 +33,7 @@ void Game::UpdatePhysics()
 }
 
 void Game::DrawGame()
-{
-	controlBodyAvatar->Actualizar();
-	controlBodyAvatar->Dibujar(*wnd);
-}
+{ }
 
 void Game::DoEvents()
 {
@@ -49,26 +46,13 @@ void Game::DoEvents()
 				wnd->close();
 				break;
 			case Event::MouseButtonPressed:
-				b2Body* body = Box2DHelper::CreateTriangularDynamicBody(phyWorld, b2Vec2(0.0f, 0.0f), 10.0f, 1.0f, 4.0f, 0.1f);
+				b2Body *body = Box2DHelper::CreateTriangularDynamicBody(phyWorld,b2Vec2(0.0f, 0.0f), 10.0f, 1.0f, 4.0f, 0.1f);
 				// Transformamos las coordenadas segun la vista activa
 				Vector2f pos = wnd->mapPixelToCoords(Vector2i(evt.mouseButton.x, evt.mouseButton.y));
 				body->SetTransform(b2Vec2(pos.x, pos.y), 0.0f);
 				break;
 		}
 	}
-
-	// Movemos el cuerpo
-	controlBody->SetAwake(true);
-	if(Keyboard::isKeyPressed(Keyboard::Left))
-		controlBody->SetLinearVelocity(b2Vec2(-50.0f, 0.0f));
-	if(Keyboard::isKeyPressed(Keyboard::Right))
-		controlBody->SetLinearVelocity(b2Vec2(50.0f, 0.0f));
-	if(Keyboard::isKeyPressed(Keyboard::Down))
-		controlBody->SetLinearVelocity(b2Vec2(0.0f, 50.0f));
-	if (Keyboard::isKeyPressed(Keyboard::Up))
-		controlBody->SetLinearVelocity(b2Vec2(0.0f, -50.0f));
-
-	//controlBody->SetAngularVelocity(5.0f);
 }
 
 void Game::CheckCollitions()
@@ -80,11 +64,9 @@ void Game::CheckCollitions()
 // Box2D tiene problemas para simular magnitudes muy grandes
 void Game::SetZoom()
 {
-	View camara;
-	// Posicion del view
-	camara.setSize(100.0f, 100.0f);
-	camara.setCenter(50.0f, 50.0f);
-	wnd->setView(camara); // Asignamos la camara
+	// Definimos el area visible
+	View v(Vector2f(50.0f, 50.0f), Vector2f(100.0f, 100.0f));
+	wnd->setView(v);
 }
 
 void Game::InitPhysics()
@@ -96,7 +78,7 @@ void Game::InitPhysics()
 	//phyWorld->SetContactListener(l);
 	// Creamos el renderer de debug y le seteamos las banderas para que dibuje TODO
 	debugRender= new SFMLRenderer(wnd);
-	debugRender->SetFlags(UINT_MAX);
+	debugRender->SetFlags(UINT32_MAX);
 	phyWorld->SetDebugDraw(debugRender);
 
 	// Creamos un piso y paredes
@@ -109,13 +91,21 @@ void Game::InitPhysics()
 	b2Body* rightWallBody = Box2DHelper::CreateRectangularStaticBody(phyWorld, 10, 100);
 	rightWallBody->SetTransform(b2Vec2(100.0f, 50.0f), 0.0f);
 
-	// Creamos un círculo que controlaremos con el teclado
-	controlBody= Box2DHelper::CreateCircularDynamicBody(phyWorld, 5, 1.0f, 0.5, 0.1f);
-	controlBody->SetTransform(b2Vec2(50.0f, 50.0f), 0.0f);
+	// Creamos un techo
+	b2Body* topWallBody = Box2DHelper::CreateRectangularStaticBody(phyWorld,100,10);
+	topWallBody->SetTransform(b2Vec2(50.0f, 0.0f), 0.0f);
 
-	texturaPelota.loadFromFile("..\\Resources\\Pelota.png");
+	//------------------------------------
+	// Revolute and prismatic joints
+	//------------------------------------
+	b2Body* EsferaRev = Box2DHelper::CreateCircularStaticBody(phyWorld, 5.0f);
+	EsferaRev->SetTransform(b2Vec2(50.0f, 50.0f), 0.0f);
+	b2Body* CajaRev = Box2DHelper::CreateRectangularDynamicBody(phyWorld, 5, 5, 1.0f, 1.0f, 1.0f);
+	CajaRev->SetTransform(b2Vec2(50.0f, 70.0f), 0.0f);
 
-	controlBodyAvatar = new Avatar(controlBody, new sf::Sprite(texturaPelota));
+	// Prismatic Joint
+	b2PrismaticJoint* revJoint = Box2DHelper::CreatePrismaticJoint(phyWorld,EsferaRev,EsferaRev->GetWorldCenter(),
+	CajaRev,b2Vec2(0.0f, 1.0f), -5, 5, -10.0f, 10000.0f, true, true);
 }
 
 Game::~Game(void)

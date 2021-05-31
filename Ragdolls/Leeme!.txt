@@ -1,0 +1,8 @@
+El proyecto implementa ragdolls usando Box2D, en particular revolution joints y distance joints.
+En este se crea un suelo estatico y un grupo ragdolls.
+Se renderiza usando shapes de SFML.
+Con el mouse, usando el click izquierdo(y manteniendo) se puede hacer peek sobre los ragdolls y 
+moverlos a gusto.
+Usando las teclas W, A, S y D se puede mover uno de los ragdolls, el movimiento
+se hace aplicandole una fuerza a la cabeza del ragdoll.
+Presionando la Q se aplica un impulso hacia arriba todos los ragdolls.

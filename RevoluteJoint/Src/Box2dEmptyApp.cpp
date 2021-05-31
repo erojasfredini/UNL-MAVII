@@ -7,8 +7,9 @@ using namespace sf;
 int main(int argc, char* argv[])
 {
 	Game *Juego;
-	Juego = new Game(800,600,"Physics kit");
+	Juego = new Game(800, 600, "Physics kit");
 	Juego->Loop();
 
 	return 0;
 }
+

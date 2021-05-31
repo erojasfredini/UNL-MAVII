@@ -22,13 +22,13 @@ link_directories(${LIBRARY_DIRS})
 add_compile_definitions(SFML_STATIC)
 
 # Proyecto de ejecutable a generar con codigos
-file(GLOB_RECURSE BOX2DFIRSTAPP_SOURCES RELATIVE ${PROJECT_SOURCE_DIR}/Src/ *.cpp *.h *.hpp)
-add_executable(Box2dFirstApp ${BOX2DFIRSTAPP_SOURCES})
-target_link_libraries(Box2dFirstApp ${LIBRARIES})
+file(GLOB_RECURSE BOX2DSOFTBODY_SOURCES RELATIVE ${PROJECT_SOURCE_DIR}/Src/ *.cpp *.h *.hpp)
+add_executable(Box2dSoftBody ${BOX2DSOFTBODY_SOURCES})
+target_link_libraries(Box2dSoftBody ${LIBRARIES})
 
 # Folder filters
-create_filters("${BOX2DFIRSTAPP_SOURCES}" ".")
+create_filters("${BOX2DSOFTBODY_SOURCES}" ".")
 
 # Capetas de salida
-set_target_properties(Box2dFirstApp PROPERTIES PDB_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/Bin/$<CONFIG>")
-set_target_properties(Box2dFirstApp PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/Bin/$<CONFIG>")
+set_target_properties(Box2dSoftBody PROPERTIES PDB_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/Bin/$<CONFIG>")
+set_target_properties(Box2dSoftBody PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/Bin/$<CONFIG>")

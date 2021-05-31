@@ -338,7 +338,7 @@ public:
 	//-------------------------------------------------------------
 	// Un Mouse Joint entre dos cuerpos
 	//-------------------------------------------------------------
-	static b2MouseJoint* CreateMouseJoint(b2World* phyWorld, b2Body* second, float maxForce)
+	static b2MouseJoint* CreateMouseJoint(b2World* phyWorld, b2Body* second, float maxForce, float frec, float dampRatio)
 	{
 		b2MouseJointDef jointDef;
 
@@ -346,6 +346,7 @@ public:
 		jointDef.bodyB = second;
 		jointDef.target = second->GetWorldCenter();
 		jointDef.maxForce = maxForce;
+		b2LinearStiffness(jointDef.stiffness, jointDef.damping, frec, dampRatio, jointDef.bodyA, jointDef.bodyB);
 
 		b2MouseJoint* mouseJoint = (b2MouseJoint*)phyWorld->CreateJoint(&jointDef);
 		return mouseJoint;
